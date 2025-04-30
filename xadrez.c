@@ -6,8 +6,14 @@ int main() {
     int casasBispo = 5;
     int casasRainha = 8;
     
+    // Variáveis para o movimento do Cavalo
+    int movimentosCavalo = 3; // 2 para baixo + 1 para esquerda
+    int passosVerticais = 2; // "Baixo" duas vezes
+    int passosHorizontais = 1; // "Esquerda" uma vez
+
     int i; // variável de controle para o for
     int contador; // variável para while e do-while
+    int j; // variável auxiliar para loops aninhados
 
     // Simulação do movimento da Torre usando o laço for
     printf("Movimento da Torre:\n");
@@ -32,6 +38,21 @@ int main() {
         printf("Esquerda\n");
         contador++;
     } while (contador < casasRainha);
+    printf("\n");
+
+    // Simulação do movimento do Cavalo usando loops aninhados
+    printf("Movimento do Cavalo:\n");
+
+    for (i = 0; i < passosVerticais; i++) { // Primeiro loop for para movimentos verticais
+        printf("Baixo\n");
+    }
+
+    // Loop while aninhado para movimento horizontal após movimento vertical
+    j = 0;
+    while (j < passosHorizontais) {
+        printf("Esquerda\n");
+        j++;
+    }
 
     return 0;
 }
