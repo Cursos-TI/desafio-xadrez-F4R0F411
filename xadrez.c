@@ -1,57 +1,85 @@
 #include <stdio.h>
 
-int main() {
-    // Variáveis para definir o número de casas a serem movidas
-    int casasTorre = 5;
-    int casasBispo = 5;
-    int casasRainha = 8;
-    
-    // Variáveis para o movimento do Cavalo
-    int movimentosCavalo = 3; // 2 para baixo + 1 para esquerda
-    int passosVerticais = 2; // "Baixo" duas vezes
-    int passosHorizontais = 1; // "Esquerda" uma vez
+// Função recursiva para o movimento da Torre (direita)
+void moverTorre(int casasRestantes) {
+    if (casasRestantes <= 0) {
+        return; // Caso base: sem casas para mover
+    }
+    printf("Direita\n");
+    moverTorre(casasRestantes - 1); // Chamada recursiva
+}
 
-    int i; // variável de controle para o for
-    int contador; // variável para while e do-while
-    int j; // variável auxiliar para loops aninhados
+// Função recursiva para o movimento da Rainha (esquerda)
+void moverRainha(int casasRestantes) {
+    if (casasRestantes <= 0) {
+        return; // Caso base: sem casas para mover
+    }
+    printf("Esquerda\n");
+    moverRainha(casasRestantes - 1); // Chamada recursiva
+}
 
-    // Simulação do movimento da Torre usando o laço for
-    printf("Movimento da Torre:\n");
-    for (i = 0; i < casasTorre; i++) {
+// Função recursiva para o movimento vertical do Bispo
+void moverBispoVertical(int casasRestantesVertical, int casasHorizontais) {
+    if (casasRestantesVertical <= 0) {
+        return; // Caso base: sem mais movimento vertical
+    }
+
+    // Loop aninhado para movimento horizontal a cada movimento vertical
+    for (int i = 0; i < casasHorizontais; i++) {
         printf("Direita\n");
     }
+    printf("Cima\n");
+
+    // Chamada recursiva para o próximo movimento vertical
+    moverBispoVertical(casasRestantesVertical - 1, casasHorizontais);
+}
+
+int main() {
+    // Número de casas que cada peça irá se mover
+    int casasTorre = 5;
+    int casasBispoVertical = 5; // número de passos para cima
+    int casasBispoHorizontal = 1; // cada movimento para cima, anda 1 para a direita
+    int casasRainha = 8;
+
+    // Variáveis para movimento do Cavalo
+    int passosVerticaisCavalo = 2; // duas casas para cima
+    int passosHorizontaisCavalo = 1; // uma casa para a direita
+    int movimentosCavalo = 3; // Quantidade de movimentos em "L"
+
+    printf("Movimento da Torre:\n");
+    moverTorre(casasTorre);
     printf("\n");
 
-    // Simulação do movimento do Bispo usando o laço while
     printf("Movimento do Bispo:\n");
-    contador = 0;
-    while (contador < casasBispo) {
-        printf("Cima Direita\n");
-        contador++;
-    }
+    moverBispoVertical(casasBispoVertical, casasBispoHorizontal);
     printf("\n");
 
-    // Simulação do movimento da Rainha usando o laço do-while
     printf("Movimento da Rainha:\n");
-    contador = 0;
-    do {
-        printf("Esquerda\n");
-        contador++;
-    } while (contador < casasRainha);
+    moverRainha(casasRainha);
     printf("\n");
 
-    // Simulação do movimento do Cavalo usando loops aninhados
     printf("Movimento do Cavalo:\n");
+    // Simulando o Cavalo usando loops complexos
+    int movimentosRealizados = 0;
+    for (int i = 0; i < movimentosCavalo; i++) {
+        for (int j = 0; j < passosVerticaisCavalo + passosHorizontaisCavalo; j++) {
+            if (j < passosVerticaisCavalo) {
+                printf("Cima\n"); // Primeiro sobe
+            } else if (j == passosVerticaisCavalo) {
+                printf("Direita\n"); // Depois vai para direita
+            }
 
-    for (i = 0; i < passosVerticais; i++) { // Primeiro loop for para movimentos verticais
-        printf("Baixo\n");
-    }
+            // Controle de fluxo: Se completar o "L", usa break
+            if (j == passosVerticaisCavalo) {
+                break; // Sai do loop interno depois do "L"
+            }
+        }
+        movimentosRealizados++;
 
-    // Loop while aninhado para movimento horizontal após movimento vertical
-    j = 0;
-    while (j < passosHorizontais) {
-        printf("Esquerda\n");
-        j++;
+        // Usando continue apenas como exemplo adicional (não estritamente necessário aqui)
+        if (movimentosRealizados >= movimentosCavalo) {
+            continue;
+        }
     }
 
     return 0;
